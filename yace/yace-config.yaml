@@ -1,0 +1,142 @@
+apiVersion: v1alpha1
+sts-region: eu-west-1
+discovery:
+  exportedTagsOnMetrics:
+    # AWS/EBS:
+    # - VolumeId
+    AWS/S3:
+      - BucketName
+    AWS/EC2:
+      - Label
+  jobs:
+    # - type: AWS/ECS
+    #   regions: [eu-west-1]
+    #   period: 300
+    #   length: 300
+    #   metrics:
+    #     - name: CPUReservation
+    #       statistics:
+    #         - Average
+    #     - name: MemoryReservation
+    #       statistics:
+    #         - Average
+    #     - name: CPUUtilization
+    #       statistics:
+    #         - Average
+    #     - name: MemoryUtilization
+    #       statistics:
+    #         - Average
+    - type: AWS/EC2
+      regions: [eu-west-1]
+      includeContextOnInfoMetrics: true
+      metrics:
+        - name: CPUUtilization
+          statistics:
+            - Average
+        - name: NetworkIn
+          statistics:
+            - Average
+        - name: NetworkOut
+          statistics:
+            - Average
+        - name: CPUCreditUsage
+          statistics:
+            - Average
+    - type: AWS/ApplicationELB
+      regions: [eu-west-1]
+      period: 300
+      length: 300
+      metrics:
+        - name: HealthyHostCount
+          statistics: [Sum]
+        - name: UnHealthyHostCount
+          statistics: [Sum]
+        - name: RequestCount
+          statistics: [Average]
+        - name: TargetResponseTime
+          statistics: [Average]
+        - name: ActiveConnectionCount
+          statistics: [Sum]
+        - name: NewConnectionCount
+          statistics: [Sum]
+        - name: RejectedConnectionCount
+          statistics: [Sum]
+        - name: TargetConnectionErrorCount
+          statistics: [Sum]
+        - name: IPv6RequestCount
+          statistics: [Sum]
+        - name: RequestCountPerTarget
+          statistics: [Sum]
+        - name: NonStickyRequestCount
+          statistics: [Sum]
+        - name: HTTPCode_Target_2XX_Count
+          statistics: [Sum]
+        - name: HTTPCode_Target_3XX_Count
+          statistics: [Sum]
+        - name: HTTPCode_Target_4XX_Count
+          statistics: [Sum]
+        - name: HTTPCode_Target_5XX_Count
+          statistics: [Sum]
+        - name: HTTPCode_ELB_3XX_Count
+          statistics: [Sum]
+        - name: HTTPCode_ELB_4XX_Count
+          statistics: [Sum]
+        - name: HTTPCode_ELB_5XX_Count
+          statistics: [Sum]
+        - name: ProcessedBytes
+          statistics: [Sum]
+        - name: IPv6ProcessedBytes
+          statistics: [Sum]
+        - name: ConsumedLCUs
+          statistics: [Average]
+        - name: ClientTLSNegotiationErrorCount
+          statistics: [Sum]
+        - name: TargetTLSNegotiationErrorCount
+          statistics: [Sum]
+        - name: RuleEvaluations
+          statistics: [Sum]
+    - type: AWS/S3
+      regions: [eu-west-1]
+      period: 86400
+      length: 86400
+      metrics:
+        - name: NumberOfObjects
+          statistics: [Average]
+        - name: BucketSizeBytes
+          statistics: [Average]
+    - type: AWS/Lambda
+      regions: [eu-west-1, us-east-1]
+      period: 300
+      length: 300
+      metrics:
+        - name: Invocations
+          statistics: [Sum]
+        - name: Errors
+          statistics: [Sum]
+        - name: Throttles
+          statistics: [Sum]
+        - name: Duration
+          statistics: [Average, Maximum, Minimum, p90]
+    - type: AWS/SQS
+      regions: [eu-west-1]
+      period: 60
+      length: 60
+      metrics:
+        - name: NumberOfMessagesSent
+          statistics: [Sum]
+        - name: NumberOfMessagesReceived
+          statistics: [Sum]
+        - name: NumberOfMessagesDeleted
+          statistics: [Sum]
+        - name: ApproximateAgeOfOldestMessage
+          statistics: [Average]
+        - name: NumberOfEmptyReceives
+          statistics: [Sum]
+        - name: SentMessageSize
+          statistics: [Average]
+        - name: ApproximateNumberOfMessagesNotVisible
+          statistics: [Sum]
+        - name: ApproximateNumberOfMessagesDelayed
+          statistics: [Sum]
+        - name: ApproximateNumberOfMessagesVisible
+          statistics: [Sum]
